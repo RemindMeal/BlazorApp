@@ -1,0 +1,34 @@
+@typeparam TEdit
+
+<button type="button" class="btn btn-sm btn-secondary" @onclick="Edit">
+    Modifier
+</button>
+
+@code
+{
+    [Parameter]
+    public EventCallback Callable { get; set; }
+
+    [Parameter]
+    public string ModalTitle { get; set; }
+
+    [Parameter]
+    public int Id { get; set; }
+
+    [Inject]
+    private IModalService Modal { get; set; }
+
+    protected async Task Edit()
+    {
+        var parameters = new ModalParameters();
+        parameters.Add("Id", Id);
+
+        var modal = Modal.Show<TEdit>(ModalTitle, parameters);
+        var result = await modal.Result;
+
+        if (!result.Cancelled)
+        {
+            await Callable.InvokeAsync();
+        }
+    }
+}

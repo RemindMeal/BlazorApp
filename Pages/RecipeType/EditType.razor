@@ -1,0 +1,24 @@
+@inherits EditComponent<RecipeType>
+
+@if (@View == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+<EditForm Model="@View" OnValidSubmit="@FormSubmitted">
+
+    <DataAnnotationsValidator />
+
+    <div class="form-group">
+        <label for="nom" class="control-label">Nom</label><br />
+        <InputText id="nom" @bind-Value="View.Name" class="form-control" />
+        <ValidationMessage For="@(() => View.Name)" />
+    </div>
+    <div class="button-group">
+        <button type="submit" class="btn btn-primary">Modifier</button>
+        <button @onclick="BlazoredModal.CancelAsync" class="btn btn-secondary">Annuler</button>
+    </div>
+</EditForm>
+
+}

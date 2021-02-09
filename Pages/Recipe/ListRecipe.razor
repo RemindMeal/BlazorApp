@@ -1,0 +1,58 @@
+@page "/recipe"
+
+@inherits ListComponent<Recipe>
+
+<div class="row">
+  <div class="col-12">
+    <h4><span class="oi oi-list" aria-hidden="true"></span> Liste des recettes</h4>
+  </div>
+</div>
+<div class="row">
+  <div class="col-6">
+    <AddButton Callable="Refresh" Title="@AddModalTitle()" TAdd="AddRecipe">
+      Ajouter une recette
+    </AddButton>
+  </div>
+
+</div>
+<br />
+
+@if (Models == null)
+{
+  <p><em>Loading...</em></p>
+}
+else
+{
+  <table class="table">
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Description</th>
+      <th>Type</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var recipe in Models)
+      {
+        <tr>
+          <td>@recipe.Name</td>
+          <td>@recipe.Description</td>
+          <td>@recipe.Type</td>
+          <td>
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <EditButton Callable="Refresh" Id="recipe.Id" ModalTitle="@EditModalTitle()" TEdit="EditRecipe"/>
+              <DeleteButton Callable="Refresh" Id="recipe.Id" ModalTitle="@DeleteModalTitle()" TModel="Recipe" />
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
+
+@code {
+  protected override string AddModalTitle() => "Enregistrement d'une nouvelle recette";
+  protected override string EditModalTitle() => "Modification d'une recette";
+  protected override string DeleteModalTitle() => "Suppression d'une recette";
+}

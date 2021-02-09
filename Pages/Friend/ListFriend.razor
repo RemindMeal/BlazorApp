@@ -1,0 +1,55 @@
+@page "/friend"
+
+@inherits ListComponent<Friend>
+
+<div class="row">
+  <div class="col-12">
+    <h4><span class="oi oi-list" aria-hidden="true"></span> Vos invités</h4>
+  </div>
+</div>
+<div class="row">
+  <div class="col-6">
+    <AddButton Callable="Refresh" Title="@AddModalTitle()" TAdd="AddFriend">
+      Enregistrer un nouvel invité
+    </AddButton>
+  </div>
+
+</div>
+<br />
+
+@if (Models == null)
+{
+  <p><em>Loading...</em></p>
+}
+else
+{
+  <table class="table">
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var friend in Models)
+      {
+        <tr>
+          <td>@friend.Surname @friend.Name</td>
+          <th>
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <EditButton Callable="Refresh" Id="friend.Id" ModalTitle="@EditModalTitle()" TEdit="EditFriend" />
+              <DeleteButton Callable="Refresh" Id="friend.Id" ModalTitle="@DeleteModalTitle()" TModel="Friend" />
+            </div>
+          </th>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
+
+@code
+{
+  protected override string AddModalTitle() => "Ajout d'un invité";
+  protected override string EditModalTitle() => "Renommage d'un invité";
+  protected override string DeleteModalTitle() => "Suppression d'un invité";
+}

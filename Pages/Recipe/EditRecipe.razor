@@ -1,0 +1,51 @@
+@inherits EditComponent<Recipe, RecipeView>
+
+@inject MealBlazorAppContext Context
+
+@if (@View == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+<EditForm Model="@View" OnValidSubmit=@FormSubmitted>
+
+    <DataAnnotationsValidator />
+
+    <div class="form-group">
+        <label for="name">Nom</label><br />
+        <InputText id="name" @bind-Value="View.Name" />
+        <ValidationMessage For="@(() => View.Name)" />
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label><br />
+        <InputTextArea id="description" @bind-Value="View.Description" />
+        <ValidationMessage For="@(() => View.Description)" />
+    </div>
+    <div class="form-group">
+        <label for="type" class="control-label">Type</label>
+        <br />
+        <InputSelect id="type" @bind-Value="View.TypeName" class="form-control">
+            @foreach (var type in Types)
+            {
+                <option value="@type.Name">@type</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => View.TypeName)" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Modifier</button>
+    <button @onclick="BlazoredModal.CancelAsync" class="btn btn-secondary">Annuler</button>
+</EditForm>
+
+}
+
+@code {
+    protected async override Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        Types = Context.RecipeTypes.ToList();
+    }
+
+    List<RecipeType> Types;
+}

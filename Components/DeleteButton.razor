@@ -1,0 +1,35 @@
+@typeparam TModel
+
+<button type="button" class="btn btn-sm btn-primary" @onclick="Delete">
+    Supprimer
+</button>
+
+@code
+{
+    [Parameter]
+    public EventCallback Callable { get; set; }
+
+    [Parameter]
+    public string ModalTitle { get; set; }
+
+    [Parameter]
+    public int Id { get; set; }
+
+    [Inject]
+    private IModalService Modal { get; set; }
+
+    protected async Task Delete()
+    {
+        var parameters = new ModalParameters();
+        parameters.Add("Id", Id);
+        parameters.Add("Name", "ce type de recettes");
+
+        var modal = Modal.Show<DeleteComponent<TModel>>(ModalTitle, parameters);
+        var result = await modal.Result;
+
+        if (!result.Cancelled)
+        {
+            await Callable.InvokeAsync();
+        }
+    }
+}

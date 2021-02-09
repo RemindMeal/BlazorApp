@@ -1,0 +1,33 @@
+@using MealBlazorApp.Services
+@typeparam T
+@inject IRepository<T> RepositoryService
+
+<EditForm Model="@model" OnSubmit=@FormSubmitted>
+    Voulez-vous vraiment supprimer @Name ?
+    <button type="submit" class="btn btn-danger">Oui</button>
+    <button @onclick="BlazoredModal.CancelAsync" class="btn btn-secondary">Annuler</button>
+</EditForm>
+
+@code {
+    [CascadingParameter]
+    BlazoredModalInstance BlazoredModal { get; set; }
+
+    private T model;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    [Parameter]
+    public string Name { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        model = await RepositoryService.GetById(Id);
+    }
+
+    private async void FormSubmitted()
+    {
+        await RepositoryService.Delete(Id);
+        await BlazoredModal.CloseAsync(ModalResult.Ok<T>(model));
+    }
+}

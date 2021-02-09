@@ -1,0 +1,21 @@
+@inherits AddComponent<Friend>
+
+<EditForm Model="@Model" OnValidSubmit="@FormSubmitted">
+
+    <DataAnnotationsValidator />
+
+    <div class="form-group">
+        <label for="nom" class="control-label">Prénom</label><br />
+        <InputText id="nom" @bind-Value="Model.Name" class="form-control" />
+        <ValidationMessage For="@(() => Model.Name)" />
+    </div>
+    <div class="form-group">
+        <label for="nom" class="control-label">Nom</label><br />
+        <InputText id="nom" @bind-Value="Model.Surname" class="form-control" />
+        <ValidationMessage For="@(() => Model.Surname)" />
+    </div>
+    <div class="button-group">
+        <button type="submit" class="btn btn-primary">Ajouter</button>
+        <button @onclick="BlazoredModal.CancelAsync" class="btn btn-secondary">Annuler</button>
+    </div>
+</EditForm>

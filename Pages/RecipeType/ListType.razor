@@ -1,0 +1,55 @@
+@page "/type"
+
+@inherits ListComponent<RecipeType>
+
+<div class="row">
+  <div class="col-12">
+    <h4><span class="oi oi-list" aria-hidden="true"></span> Vos catégories de recettes</h4>
+  </div>
+</div>
+<div class="row">
+  <div class="col-6">
+    <AddButton Callable="Refresh" Title="@AddModalTitle()" TAdd="AddType">
+      Ajouter une nouvelle catégorie
+    </AddButton>
+  </div>
+
+</div>
+<br />
+
+@if (Models == null)
+{
+  <p><em>Loading...</em></p>
+}
+else
+{
+  <table class="table">
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var type in Models)
+      {
+        <tr>
+          <td>@type.Name</td>
+          <th>
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <EditButton Callable="Refresh" Id="type.Id" ModalTitle="@EditModalTitle()" TEdit="EditType" />
+              <DeleteButton Callable="Refresh" Id="type.Id" ModalTitle="@DeleteModalTitle()" TModel="RecipeType" />
+            </div>
+          </th>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
+
+@code
+{
+  protected override string AddModalTitle() => "Création d'une catégorie de recettes";
+  protected override string EditModalTitle() => "Renommage d'une catégorie de recettes";
+  protected override string DeleteModalTitle() => "Suppression d'une catégorie";
+}
