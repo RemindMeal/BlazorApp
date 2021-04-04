@@ -1,0 +1,17 @@
+<div class="form-group">
+    <label for="@Id" class="control-label">@ChildContent</label><br />
+    <InputText id="@Id" @bind-Value="(async () => await FieldCallable.InvokeAsync())" class="form-control" />
+    <ValidationMessage For="FieldCallable" />
+</div>
+
+@code
+{
+    [Parameter]
+    public EventCallback<string> FieldCallable { get; set; }
+
+    [Parameter]
+    public string Id { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent {get;set;}
+}

@@ -1,9 +1,12 @@
 @inherits AddComponent<Friend>
 
+@using MealBlazorApp.Pages.Friend
+
 <EditForm Model="@Model" OnValidSubmit="@FormSubmitted">
 
     <DataAnnotationsValidator />
 
+    <MyInput Id="nom" Field="(() => Model.Name)">Prénom</MyInput>
     <div class="form-group">
         <label for="nom" class="control-label">Prénom</label><br />
         <InputText id="nom" @bind-Value="Model.Name" class="form-control" />
